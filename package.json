@@ -1,0 +1,13 @@
+{
+  "name": "connect-sample",
+  "version": "1.0.0",
+  "description": "Connection sample",
+  "main": "index.js",
+  "type": "module",
+  "author": "Martin Henke",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "^4.6.0",
+    "redis": "^4.1.0"
+  }
+}
