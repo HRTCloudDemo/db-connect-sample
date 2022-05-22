@@ -25,3 +25,9 @@ A short sample Program to show teh connection to MongoDB and Redis
 
   In the IBM Cloud the value can be retrieved from the value `connection.rediss.composed`of the Service Credentials
 
+## Run the sample
+
+```
+npm i
+node index.js
+```
