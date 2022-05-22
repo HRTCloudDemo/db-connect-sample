@@ -1,6 +1,6 @@
 # db-connect-sample
 
-A short sample Program to show teh connection to MongoDB and Redis
+A short sample Program to show how to connect to MongoDB and Redis
 
 ## MongoDB
 
