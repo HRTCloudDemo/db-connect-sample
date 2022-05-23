@@ -7,6 +7,7 @@
   "author": "Martin Henke",
   "license": "MIT",
   "dependencies": {
+    "@ibm-cloud/cloudant": "^0.1.2",
     "mongodb": "^4.6.0",
     "redis": "^4.1.0"
   }

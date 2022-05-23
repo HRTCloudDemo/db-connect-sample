@@ -1,5 +1,7 @@
 import { MongoClient } from 'mongodb'
 import { createClient } from 'redis'
+import { CloudantV1 } from '@ibm-cloud/cloudant'
+import { IamAuthenticator } from 'ibm-cloud-sdk-core'
 
 async function mongodb_demo() {
   console.log('************ MONGO DB DEMO START *************');
@@ -68,9 +70,58 @@ async function redis_demo() {
   return
 }
 
+async function cloudant_demo() {
+
+  console.log("\n************ CLOUDANT DB DEMO START *************");
+
+  let apikey = process.env.CLOUDANT_APIKEY
+  let url = process.env.CLOUDANT_URL
+
+  const authenticator = new IamAuthenticator({
+      apikey: apikey
+  });
+
+  const client = new CloudantV1({
+      authenticator: authenticator
+  });
+
+  client.setServiceUrl(url);
+
+  // 1. Create a Cloudant client with "EXAMPLES" service name ===================
+  //const client = service.  newInstance({ serviceName: 'EXAMPLES' });
+
+  // 2. Get server information ==================================================
+  // call service without parameters:
+  const { version } = (await client.getServerInformation()).result;
+  console.log(`Server version ${version}`);
+
+  // 3. Get database information for "animaldb" =================================
+  const dbName = 'hrt-demo';
+
+  // call service with embedded parameters:
+  const dbInfo = await client.getDatabaseInformation({ db: dbName });
+  const documentCount = dbInfo.result.doc_count;
+  const dbNameResult = dbInfo.result.db_name;
+
+  // 4. Show document count in database =========================================
+  console.log(`Document count in "${dbNameResult}" database is ${documentCount}.`);
+
+  // 5. Get zebra document out of the database by document id ===================
+  const getDocParams = { db: dbName, docId: 'b3d7f53650b9b23faead84483b8b85cc' };
+
+  // call service with predefined parameters:
+  const documentAboutZebra = await client.getDocument(getDocParams);
+
+  // result object is defined as a Document here:
+  const { result } = documentAboutZebra;
+  console.log(`Document retrieved from database:\n${JSON.stringify(result, null, 2)}`);
+  console.log('************ CLOUDANT DB DEMO END *************');
+}
+
 async function demo() {
   await mongodb_demo()
   await redis_demo()
+  await cloudant_demo()
 }
 
 await demo()
